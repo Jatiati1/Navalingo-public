@@ -1,0 +1,50 @@
+/* frontend/src/components/UI/Footer/Footer.module.css */
+
+.footer {
+  background-color: var(--header-bg-color, #284571);
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  z-index: 8000; /* keep above low z-index content */
+  margin-top: auto; /* stick to bottom in flex layouts */
+  padding: 15px 20px;
+  flex-shrink: 0; /* prevent shrinking on long content */
+}
+
+.footer p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+.footer a:hover,
+.footer a:focus {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/* home page overrides (optional) */
+.homeFooter {
+}
+
+/* dashboard overrides */
+.dashboardFooter {
+  margin-top: 100px; /* space above for dropdowns/menus */
+  padding: 20px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+  .footer {
+    padding: 12px 15px;
+    font-size: 13px;
+  }
+  .dashboardFooter {
+    margin-top: 100px;
+    padding: 15px;
+  }
+}

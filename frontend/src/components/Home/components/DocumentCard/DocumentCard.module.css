@@ -1,0 +1,192 @@
+/* src/components/Home/components/DocumentCard/DocumentCard.module.css */
+/* Card layout and interactions for document tiles */
+
+.documentCard {
+  width: calc(25% - 25px);
+  min-width: 280px;
+  height: 220px;
+  background-color: #ffffff;
+  color: #202124;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 18px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+
+.documentCard:hover {
+  background-color: #f1f3f4;
+  transform: translateY(-2px);
+  z-index: 5;
+}
+
+/* Header row (date + actions) */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: visible;
+}
+
+.cardDate {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  min-width: 60px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Delete button */
+.trashIcon {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin: 0;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  margin-left: 8px;
+  overflow: visible;
+}
+
+.trashIcon:hover {
+  opacity: 1;
+}
+
+.trashIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.trashIcon svg path {
+  stroke: rgba(0, 0, 0, 0.6) !important;
+}
+
+.trashIcon:hover svg path {
+  stroke: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Title + preview */
+.cardTitle {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardPreview {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #555;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+/* Responsive layout */
+@media (max-width: 1200px) {
+  .documentCard {
+    width: calc(33.333% - 20px);
+  }
+}
+
+@media (max-width: 900px) {
+  .documentCard {
+    width: calc(50% - 15px);
+    min-width: 260px;
+  }
+  .cardTitle {
+    font-size: 17px;
+  }
+  .cardPreview {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .documentCard {
+    width: 100%;
+    margin-bottom: 20px;
+    height: auto;
+    min-height: 180px;
+  }
+  .cardTitle {
+    font-size: 16px;
+    -webkit-line-clamp: 2;
+  }
+  .cardPreview {
+    font-size: 13px;
+    -webkit-line-clamp: 3;
+  }
+  .documentsGrid {
+    gap: 20px;
+  }
+}
+
+/* Optional custom action buttons slot */
+.cardActions {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.actionButton {
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  white-space: nowrap;
+}
+
+.restoreButton {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  border-color: #bbdefb;
+}
+.restoreButton:hover {
+  background-color: #bbdefb;
+}
+
+.deleteButton {
+  background-color: #ffebee;
+  color: #c62828;
+  border-color: #ffcdd2;
+}
+.deleteButton:hover {
+  background-color: #ffcdd2;
+}

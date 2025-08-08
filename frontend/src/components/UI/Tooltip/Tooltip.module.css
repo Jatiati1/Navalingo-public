@@ -1,0 +1,65 @@
+/* src/components/UI/Tooltip/Tooltip.module.css */
+
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltipBox {
+  position: absolute;
+  z-index: 10000;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+  animation-delay: 0.3s;
+}
+
+.tooltipBox::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+}
+
+/* Tooltip above the element (default) */
+.tooltipTop {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+}
+
+.tooltipTop::after {
+  top: 100%;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Tooltip below the element */
+.tooltipBottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+}
+
+.tooltipBottom::after {
+  bottom: 100%;
+  border-color: transparent transparent #333 transparent;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

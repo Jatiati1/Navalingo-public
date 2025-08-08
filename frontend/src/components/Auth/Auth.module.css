@@ -1,0 +1,179 @@
+/* =========================================================
+   Auth.module.css — Auth page styles
+   ========================================================= */
+
+/* Card shell */
+.authPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f4f4;
+}
+
+.wrapper {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 20px;
+  padding: 50px 65px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 15px 20px rgb(0 0 0 / 0.1);
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  margin-block: 0 30px;
+}
+
+/* Top slider */
+.slideControls {
+  position: relative;
+  display: flex;
+  height: 50px;
+  margin-bottom: 20px;
+  border: 1px solid #d1d5dc;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.slide {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font:
+    500 18px/1 "Inter",
+    sans-serif;
+  user-select: none;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.3s;
+}
+
+.slide.active {
+  color: #fff;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.sliderTab {
+  position: absolute;
+  inset: 0 50% 0 0;
+  background: linear-gradient(to right, #003366, #004080, #0059b3, #0073e6);
+  border-radius: 15px;
+  transition: transform 0.6s;
+  z-index: 0;
+}
+
+.wrapper.signup .sliderTab {
+  transform: translateX(100%);
+}
+
+/* Sliding rail with dynamic height */
+.formContainer {
+  width: 100%;
+  overflow: hidden;
+  transition: height 0.6s ease-in-out;
+}
+
+.formInner {
+  display: flex;
+  width: 100%;
+  transition: transform 0.6s;
+}
+
+.wrapper.signup .formInner {
+  transform: translateX(-100%);
+}
+
+.pane {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: #9ca3af;
+  margin-block: 48px 24px;
+}
+
+.wrapper.login .divider {
+  margin-block: 16px 20px;
+}
+
+.divider hr {
+  flex: 1;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+.divider span {
+  font:
+    500 12px/1 "Inter",
+    sans-serif;
+  text-transform: uppercase;
+}
+
+/* Google SSO button */
+.socialLogin {
+  display: flex;
+}
+
+.googleBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 50px;
+  border: 1px solid #d1d5db;
+  border-radius: 15px;
+  background: #fff;
+  font:
+    500 16px/1 "Inter",
+    sans-serif;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.googleBtn:hover:not(:disabled) {
+  background: #f9fafb;
+}
+
+.googleBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.googleBtn img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Error banner */
+.errorMessage {
+  background: #ffebee;
+  color: #d32f2f;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* UA margin reset */
+form,
+p {
+  margin-block: 0;
+}

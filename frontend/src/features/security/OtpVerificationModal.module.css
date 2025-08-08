@@ -1,0 +1,246 @@
+/* frontend/src/features/Security/OtpVerificationModal.module.css */
+
+:root {
+  --otp-bg: #ffffff;
+  --otp-text: #333333;
+  --otp-muted: #555555;
+  --otp-border: #d1d5db;
+  --otp-focus: #0059b3;
+  --otp-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  overscroll-behavior: contain;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  max-width: 480px;
+  width: 90%;
+  background: var(--otp-bg);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: var(--otp-shadow);
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modalOverlay {
+    animation: none;
+  }
+  .modalContent {
+    animation: none;
+  }
+  .actionButton,
+  .cancelButton,
+  .resendButton,
+  .codeInput {
+    transition: none;
+  }
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--otp-text);
+}
+
+.instructions {
+  font-size: 15px;
+  color: var(--otp-muted);
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.codeInput {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid var(--otp-border);
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  font-weight: 700;
+  letter-spacing: 10px;
+  background-color: var(--otp-bg);
+  color: var(--otp-text);
+  font-variant-numeric: tabular-nums;
+  caret-color: var(--otp-focus);
+}
+
+.codeInput::placeholder {
+  color: #9aa3ad;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.codeInput:focus {
+  border-color: var(--otp-focus);
+  box-shadow: 0 0 0 3px rgba(0, 89, 179, 0.15);
+}
+
+.codeInput:focus-visible {
+  outline: 2px solid var(--otp-focus);
+  outline-offset: 2px;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.actionButton,
+.cancelButton {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.actionButton {
+  background-color: var(--otp-focus);
+  color: #ffffff;
+}
+
+.actionButton:hover:not(:disabled) {
+  filter: brightness(1.02);
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: var(--otp-muted);
+  border: 1px solid var(--otp-border);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  color: #2f3944;
+}
+
+.actionButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.actionButton:focus-visible,
+.cancelButton:focus-visible,
+.resendButton:focus-visible {
+  outline: 2px solid var(--otp-focus);
+  outline-offset: 2px;
+}
+
+.errorMessage {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.resendContainer {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resendText,
+.resendTextDisabled {
+  font-size: 14px;
+  color: var(--otp-muted);
+}
+
+.resendTextDisabled {
+  font-style: italic;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  color: var(--otp-focus);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.resendButton:hover {
+  text-decoration: underline;
+}
+
+.resendButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Utility: visually hidden (for accessible labels) */
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  .actionButton,
+  .cancelButton,
+  .resendButton {
+    forced-color-adjust: none;
+    border: 1px solid ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+  .codeInput {
+    border: 1px solid ButtonText;
+  }
+}

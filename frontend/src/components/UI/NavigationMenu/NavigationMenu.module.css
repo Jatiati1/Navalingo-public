@@ -1,0 +1,107 @@
+/* frontend/src/components/UI/NavigationMenu/NavigationMenu.module.css */
+
+.navigationMenuBase {
+  animation: fadeIn 0.15s ease-out;
+}
+
+.usernameDisplay {
+  padding: 12px 16px;
+  color: #202124;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  color: #202124;
+  background: none;
+  border: none;
+  transition: background-color 0.2s ease;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: left;
+}
+
+.menuItem:hover {
+  background-color: #f1f3f4;
+}
+
+.icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #5f6368; /* Default color for SVGs using currentColor */
+}
+
+/* Icons provided as <img> */
+.iconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.7;
+}
+
+.menuItem:hover .iconImage {
+  opacity: 1;
+}
+
+/* Icons provided as SVG elements */
+.iconSvg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  opacity: 0.9;
+}
+
+.iconSvgFromProp {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+}
+
+.menuItem:hover .iconSvg,
+.menuItem:hover .iconSvgFromProp {
+  opacity: 1;
+}
+
+/* Logout-specific styles */
+.logout {
+  color: #d93025 !important;
+}
+
+.logout .icon {
+  color: #d93025 !important;
+}
+
+.logout:hover {
+  background-color: #fce8e6;
+}
+
+.logoutIconSvg {
+  stroke: #d93025 !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

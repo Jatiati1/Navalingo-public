@@ -1,0 +1,38 @@
+/* frontend/src/components/UI/Logo/Logo.module.css */
+
+/* Container ensures the logo has no extra line-height spacing */
+.logoContainer {
+  display: inline-block;
+  line-height: 1; /* Prevent extra vertical space */
+}
+
+.logoContainer svg {
+  display: block;
+  width: auto;
+  height: 100%; /* Scales SVG to match container height */
+}
+
+/* Size variations */
+.small {
+  height: 40px;
+}
+
+.large {
+  height: 56px;
+  transform: translateX(
+    48px
+  ); /* Slight horizontal adjustment for visual centering */
+}
+
+/* Color variations */
+.symbol {
+  stroke: #0073e6; /* Blue "N" symbol */
+}
+
+.defaultText {
+  fill: #0d254c; /* Dark blue wordmark text */
+}
+
+.whiteText {
+  fill: #ffffff; /* White text for dark backgrounds */
+}

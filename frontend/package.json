@@ -1,0 +1,10 @@
+﻿{
+  "name": "navalingo-frontend-source",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Display-only source for the Navalingo frontend (React/Lexical). Not intended or supported for local execution.",
+  "license": "AGPL-3.0",
+  "repository": { "type": "git", "url": "https://github.com/Jatiati1/Navalingo-public" },
+  "keywords": ["react","lexical","editor","frontend","display-only","portfolio"]
+}

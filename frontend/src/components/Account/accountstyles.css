@@ -1,0 +1,312 @@
+/* frontend/src/components/Account/accountstyles.css
+   Account shared styles: forms, sections, utilities. */
+
+/* Section titles and descriptions */
+.section-title {
+  font-size: 24px;
+  margin: 0 0 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+  line-height: 1.25;
+}
+
+.section-description {
+  margin: 0 0 25px;
+  line-height: 1.6;
+  color: var(--text-color-secondary);
+  font-size: 15px;
+  max-width: 700px;
+}
+
+/* Form grouping */
+.form-group {
+  margin-bottom: 20px;
+}
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--text-color);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+/* Input + action layout */
+.input-group {
+  display: grid;
+  gap: 12px;
+  align-items: start;
+}
+
+@media (min-width: 769px) {
+  .input-group {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 16px;
+  }
+}
+
+/* Fields */
+.input-field,
+.setting-select,
+textarea.input-field {
+  box-sizing: border-box;
+}
+
+.input-field {
+  width: 100%;
+  max-width: 450px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.3;
+  height: 42px;
+  background-color: var(--input-bg-color);
+  color: var(--text-color);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--button-primary-bg-color);
+  box-shadow: 0 0 0 3px rgba(40, 69, 113, 0.15);
+}
+
+.input-field[readonly] {
+  background-color: var(--hover-color);
+  opacity: 0.75;
+}
+
+.input-field:disabled {
+  background-color: var(--hover-color);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Textarea */
+textarea.input-field {
+  height: auto;
+  min-height: 100px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Select */
+.setting-select {
+  width: 280px;
+  max-width: 100%;
+  padding: 10px 30px 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg-color);
+  color: var(--text-color);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' stroke='%23666666' stroke-width='2' fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  font-size: 15px;
+  height: 42px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.setting-select:focus {
+  outline: none;
+  border-color: var(--button-primary-bg-color);
+  box-shadow: 0 0 0 3px var(--focus-ring-color, rgba(40, 69, 113, 0.15));
+}
+
+.setting-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Buttons */
+.update-button {
+  padding: 0 15px;
+  height: 42px;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--button-primary-bg-color);
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.update-button:hover:not(:disabled) {
+  background-color: var(--hover-color);
+  border-color: var(--button-primary-bg-color);
+}
+
+.update-button:focus-visible {
+  outline: 2px solid var(--button-primary-bg-color);
+  outline-offset: 2px;
+}
+
+.update-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button variants */
+.button-danger {
+  border: 1px solid var(--button-danger-border-color, #c53030);
+  color: var(--button-danger-fg, #c53030);
+  background: none;
+}
+
+.button-danger:hover:not(:disabled) {
+  background: rgba(197, 48, 48, 0.07);
+  border-color: var(--button-danger-border-color, #c53030);
+}
+
+.button-plain {
+  border: none;
+  background: transparent;
+  color: var(--text-color-secondary);
+}
+
+.button-plain:hover:not(:disabled) {
+  color: var(--text-color);
+  background: var(--hover-color);
+}
+
+.button-group-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Info icon stub */
+.info-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--hover-color);
+  color: var(--text-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 11px;
+  cursor: default;
+  user-select: none;
+}
+
+/* Section divider */
+.settings-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.settings-section:last-child {
+  border-bottom: none;
+}
+
+.settings-heading {
+  font-size: 18px;
+  margin: 0 0 15px;
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 1.25;
+}
+
+/* Helper / status text */
+.field-helper,
+.fieldHelper,
+.helper-text {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--text-color-secondary);
+  line-height: 1.4;
+}
+
+/* Validation states */
+.input-field.is-error,
+.setting-select.is-error {
+  border-color: var(--error-color, #c0392b);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.15);
+}
+
+.input-field.is-success,
+.setting-select.is-success {
+  border-color: var(--success-color, #2e7d32);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+.status-error {
+  color: var(--error-color, #c0392b);
+}
+.status-success {
+  color: var(--success-color, #2e7d32);
+}
+
+/* Utilities */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .update-button,
+  .input-field,
+  .setting-select {
+    transition: none;
+  }
+}
+
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  .input-field,
+  .setting-select,
+  .update-button {
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  .update-button:focus-visible {
+    outline: 2px solid ButtonText;
+  }
+  .input-field:focus,
+  .setting-select:focus {
+    box-shadow: 0 0 0 3px ButtonText;
+  }
+}

@@ -1,0 +1,10 @@
+/* frontend/src/components/Account/sections/Feedback/Feedback.module.css */
+/* Feedback section styles (kept minimal to avoid UI changes). */
+
+.feedbackContainer {
+  /* root container */
+}
+
+.feedbackContainer form {
+  max-width: 600px; /* limit form width */
+}

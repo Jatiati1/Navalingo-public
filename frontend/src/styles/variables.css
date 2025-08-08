@@ -1,0 +1,51 @@
+/* frontend/src/styles/variables.css
+   Theme tokens (light theme defaults). Keep names/values unchanged. */
+
+:root {
+  /* Light theme (default) */
+  --bg-color: #ffffff;
+  --card-bg-color: #ffffff;
+  --text-color: #333333;
+  --text-color-secondary: #555555;
+  --header-bg-color: #284571;
+  --sidebar-bg-color: #f6f8fa;
+  --border-color: #eaecef;
+  --border-color-subtle: #f1f1f1;
+  --input-bg-color: #ffffff;
+  --hover-color: #e9ecef;
+
+  /* Buttons */
+  --button-primary-bg-color: #284571;
+  --button-primary-text-color: #ffffff;
+  --button-primary-border-color: #284571;
+  --button-primary-hover-bg-color: #1e3a5c;
+
+  --button-secondary-bg-color: #f6f8fa;
+  --button-secondary-text-color: #24292e;
+  --button-secondary-border-color: #d1d5da;
+  --button-secondary-hover-bg-color: #e1e4e8;
+
+  --button-icon-bg-color: transparent;
+  --button-icon-text-color: var(--text-color-secondary);
+  --button-icon-hover-bg-color: var(--hover-color);
+  --button-icon-active-bg-color: #d1d5da; /* Example active color */
+
+  --button-danger-bg-color: #fbe9e7;
+  --button-danger-text-color: #c62828;
+  --button-danger-border-color: #ffcdd2;
+  --button-danger-hover-bg-color: #ffcdd2;
+  --button-danger-hover-border-color: #ef9a9a;
+
+  /* Critical Danger (e.g., logout text, icons) */
+  --critical-danger-color: #d73a49;
+  --critical-danger-hover-bg-color: rgba(215, 58, 73, 0.1);
+
+  /* Dropdowns (base container) */
+  --dropdown-bg-color: rgba(255, 255, 255, 1);
+  --dropdown-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --dropdown-border-color: var(--border-color);
+
+  /* Loader */
+  --loader-bg-color: rgba(0, 0, 0, 0.1);
+  --loader-active-color: #284571;
+}

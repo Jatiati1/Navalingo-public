@@ -1,0 +1,135 @@
+/* base/global.css
+   Global layout helper (scrollbar reservation), tooltips ([data-tooltip]),
+   and toast banners (.toast). Selectors and behavior preserved. */
+
+/* Reserve vertical scrollbar to avoid layout shift */
+html {
+  overflow-y: scroll;
+}
+
+/* Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+
+/* Tooltip text (above) */
+[data-tooltip]:hover::before {
+  z-index: 9999;
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+/* Tooltip arrow (points down) */
+[data-tooltip]:hover::after {
+  z-index: 9999;
+  content: "";
+  position: absolute;
+  bottom: calc(100% - 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.85);
+}
+
+/* Prevent clipping of tooltips */
+body,
+html,
+#root,
+.app,
+.container {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+/* “Menu” tooltip shown below the trigger */
+[data-tooltip="Menu"]::before,
+[data-tooltip="Menu"]::after,
+button[data-tooltip="Menu"]::before,
+button[data-tooltip="Menu"]::after {
+  display: none !important;
+}
+
+/* Menu tooltip text (below) */
+[data-tooltip="Menu"]:hover::before {
+  display: block !important;
+  content: attr(data-tooltip) !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  color: #fff !important;
+  padding: 5px 10px !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  margin-top: 5px !important;
+  z-index: 99999 !important;
+}
+
+/* Menu tooltip arrow (points up) */
+[data-tooltip="Menu"]:hover::after {
+  display: block !important;
+  content: "" !important;
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: 8px solid transparent !important;
+  border-bottom-color: rgba(0, 0, 0, 0.85) !important;
+  margin-top: -10px !important;
+  z-index: 99999 !important;
+}
+
+/* Component-specific tooltip tweak */
+.trashIcon[data-tooltip]:hover::before {
+  font-size: 14px;
+  padding: 6px 12px;
+  font-weight: 500;
+}
+
+/* Toast banners */
+.toast {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  animation: toastSlide 0.4s;
+}
+
+/* Toast color variants */
+.toast--offline {
+  background: #c0392b;
+} /* red */
+.toast--online {
+  background: #27ae60;
+} /* green */
+
+/* Slide-up + fade-in keyframes */
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}

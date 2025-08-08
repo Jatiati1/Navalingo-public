@@ -1,0 +1,210 @@
+/* frontend/src/components/Auth/components/PhoneVerification/PhoneVerification.module.css */
+/* Phone verification styles */
+
+.verificationPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.verificationContainer {
+  max-width: 520px;
+  width: 100%;
+  background: #fff;
+  padding: 40px 55px;
+  border-radius: 15px;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Copy */
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.instructions {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 35px;
+  line-height: 1.6;
+}
+
+.label {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 15px;
+  font-weight: 500;
+  display: block;
+  text-align: left;
+}
+
+/* Phone input */
+.phoneInput {
+  margin-bottom: 25px;
+  text-align: left;
+}
+
+.phoneInput .PhoneInputCountry {
+  margin-right: 10px;
+  height: 32px;
+}
+
+.phoneInput .PhoneInputCountry select {
+  height: 100%;
+  padding: 4px 4px;
+  font-size: 13px;
+}
+
+.phoneInput .PhoneInputCountryIcon--border {
+  width: 18px;
+  height: 12px;
+}
+
+.phoneInput .PhoneInputCountrySelectArrow {
+  transform: scale(0.75);
+}
+
+.phoneInput input {
+  height: 48px;
+  width: 100%;
+  padding-left: 15px;
+  font-size: 17px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.phoneInput input:focus {
+  border-color: #0059b3;
+  box-shadow: 0 0 0 3px rgba(0, 89, 179, 0.15);
+}
+
+/* Country dropdown (global class set in JSX) */
+:global(.CountryDropdownMenu_Custom) {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* OTP input */
+.codeInput {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  text-align: center;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  margin-bottom: 10px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  font-weight: bold;
+  letter-spacing: 12px;
+}
+
+.codeInput:focus {
+  border-color: #0059b3;
+  box-shadow: 0 0 0 3px rgba(0, 89, 179, 0.15);
+}
+
+/* Primary action */
+.actionButton {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  background: linear-gradient(to right, #003366, #004080, #0059b3, #0073e6);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+  margin-top: 20px;
+}
+
+.actionButton:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Feedback */
+.errorMessage {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Resend section */
+.timerText {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 15px;
+  height: 18px;
+}
+
+.resendContainer {
+  margin-top: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resendText {
+  font-size: 14px;
+  color: #666;
+}
+
+.resendTextDisabled {
+  font-size: 14px;
+  color: #999;
+  font-style: italic;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  color: #0059b3;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.resendButton:hover {
+  text-decoration: underline;
+}
+
+.resendButton:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Visible reCAPTCHA fallback */
+.recaptcha {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  transform: scale(0.95);
+  transform-origin: center;
+}

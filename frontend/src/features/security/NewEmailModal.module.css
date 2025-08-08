@@ -1,0 +1,191 @@
+/* frontend/src/components/Features/Security/NewEmailModal.module.css */
+
+:root {
+  --nem-bg: #ffffff;
+  --nem-text: #333333;
+  --nem-muted: #555555;
+  --nem-border: #d1d5db;
+  --nem-focus: #0059b3;
+  --nem-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  overscroll-behavior: contain;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modalOverlay {
+    animation: none;
+  }
+}
+
+.modalContent {
+  max-width: 480px;
+  width: 90%;
+  background: var(--nem-bg);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: var(--nem-shadow);
+}
+
+.modalTitle {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--nem-text);
+  text-align: center;
+}
+
+.modalDescription {
+  font-size: 15px;
+  color: var(--nem-muted);
+  margin-bottom: 25px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--nem-text);
+}
+
+.inputField {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--nem-border);
+  background-color: var(--nem-bg);
+  color: var(--nem-text);
+  box-sizing: border-box;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.inputField:focus {
+  border-color: var(--nem-focus);
+  box-shadow: 0 0 0 3px rgba(0, 89, 179, 0.15);
+}
+
+.inputField:focus-visible {
+  outline: 2px solid var(--nem-focus);
+  outline-offset: 2px;
+}
+
+.errorMessage {
+  color: #d32f2f;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.button,
+.submitButton,
+.cancelButton {
+  padding: 10px 20px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.submitButton {
+  background-color: var(--nem-focus);
+  color: #ffffff;
+}
+
+.submitButton:hover:not(:disabled) {
+  filter: brightness(1.02);
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: var(--nem-muted);
+  border: 1px solid var(--nem-border);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #f3f4f6;
+  color: #2f3944;
+}
+
+.button:disabled,
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible,
+.submitButton:focus-visible,
+.cancelButton:focus-visible {
+  outline: 2px solid var(--nem-focus);
+  outline-offset: 2px;
+}
+
+/* Utility: visually hidden (for accessible labels) */
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  .cancelButton,
+  .submitButton {
+    forced-color-adjust: none;
+    border: 1px solid ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+  .inputField {
+    border: 1px solid ButtonText;
+  }
+}
