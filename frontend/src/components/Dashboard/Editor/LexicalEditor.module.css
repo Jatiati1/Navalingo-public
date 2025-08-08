@@ -1,0 +1,160 @@
+/* frontend/src/components/Dashboard/Editor/LexicalEditor.module.css */
+/* Editor layout and footer UI */
+
+.editor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Scrollable typing area */
+.scrollableText {
+  position: relative;
+  flex-grow: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  cursor: text;
+}
+
+/* ContentEditable */
+.contentEditable {
+  box-sizing: border-box;
+  padding: 20px 20px 40px;
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font:
+    16px/1.6 system-ui,
+    -apple-system,
+    sans-serif;
+  caret-color: #284571;
+}
+
+.contentEditable p {
+  margin: 0 0 16px;
+}
+
+.contentEditable p:empty::after {
+  content: "\200B";
+}
+
+/* Placeholder */
+.placeholder {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+/* Fade overlay and footer bar */
+.fadeOverlay {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, white);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.editorFooter {
+  flex-shrink: 0;
+  height: 40px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Word counter */
+.wordCounter {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #737373;
+  color: #fff;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.wordCounter.warn {
+  background: #e69500;
+}
+
+.wordCounter.max {
+  background: #d93025;
+}
+
+/* Credit counter */
+.creditCounter {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: #737373;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Visibility helpers */
+.hiddenWhenEmpty {
+  visibility: hidden;
+}
+
+.wordCounter.hiddenWhenEmpty {
+  visibility: hidden;
+}
+
+/* Optional hard removal */
+.wordCounter.hidden {
+  display: none;
+}
+
+/* Hard-cap shake */
+@keyframes vibrate {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-2px);
+  }
+  40%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+.shake {
+  animation: vibrate 0.3s linear;
+}
+
+/* Selection */
+.contentEditable ::selection,
+.contentEditable ::-moz-selection {
+  background: #2c64bf;
+  color: #fff !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contentEditable {
+    padding: 15px 15px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contentEditable {
+    padding: 15px 15px 30px;
+  }
+}

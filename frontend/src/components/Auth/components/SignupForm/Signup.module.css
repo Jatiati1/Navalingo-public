@@ -1,0 +1,31 @@
+/* frontend/src/components/Auth/components/SignupForm/signup.module.css */
+/* Signup password requirements */
+
+.requirementsList {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 5px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.requirementsList li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.reqIcon {
+  margin-right: 8px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.unmet {
+  color: #c0392b;
+}
+
+.met {
+  color: #2e7d32;
+}

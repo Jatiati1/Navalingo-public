@@ -1,0 +1,114 @@
+/* frontend/src/styles/base.css
+   Base reset, typography, and loading utilities. No debug styles. */
+
+/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base typography & colors */
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f4f4; /* Fixed color, not theme-dependent */
+  color: #333333; /* Fixed color, not theme-dependent */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #333333; /* Fixed color, not theme-dependent */
+}
+
+a {
+  text-decoration: none;
+  color: #284571;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* App-wide animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Loading Spinner - Global */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+}
+
+.loader {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #3b5998;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+/* Full screen loader (for auth page) */
+.loading-container.fullscreen {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fix for mobile devices */
+@media (hover: none) {
+  .dropdown {
+    background-color: #ffffff !important; /* Fixed color, not theme-dependent */
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* Small-screen root background override */
+@media (max-width: 768px) {
+  #root {
+    background-color: #fff;
+  }
+}

@@ -1,0 +1,205 @@
+/* frontend/src/components/UI/Toast/Toast.module.css */
+
+.toastStack {
+  --header-height: 60px;
+  position: fixed;
+  top: calc(var(--header-height) + 12px);
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 4000;
+  pointer-events: none;
+}
+
+@media (max-width: 520px) {
+  .toastStack {
+    right: 50%;
+    transform: translateX(50%);
+    left: auto;
+  }
+}
+
+.toast {
+  background: #111;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow:
+    0 8px 20px -6px rgba(0, 0, 0, 0.4),
+    0 3px 8px -2px rgba(0, 0, 0, 0.35);
+  min-width: 240px;
+  max-width: 360px;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.toast::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--accent, #2c6beb);
+}
+
+.toastContent {
+  flex: 1;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Footer area inside the toast containing the action button and timer */
+.toastFooter {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  color: #4da6ff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  align-self: flex-start;
+  transition: color 0.15s;
+}
+
+.actionBtn:hover {
+  color: #84c4ff;
+}
+
+.actionBtn:focus-visible {
+  outline: 2px solid #2c6beb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.toastSubMessage {
+  font-size: 13px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.closeBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #ffffffc9;
+  padding: 2px 4px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 6px;
+  align-self: flex-start;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.closeBtn:hover {
+  background: #ffffff1a;
+  color: #fff;
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid #2c6beb;
+  outline-offset: 2px;
+}
+
+.progress {
+  position: absolute;
+  left: 4px;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ffffff55, #ffffff99);
+  transform-origin: left;
+  scale: 1 1;
+  animation: progress-linear var(--duration, 4.5s) linear forwards;
+  opacity: 0.7;
+}
+
+.toastEnter {
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: toast-in 200ms cubic-bezier(0.16, 0.8, 0.3, 1) forwards;
+}
+
+.toastExit {
+  animation: toast-out 160ms ease forwards;
+}
+
+@keyframes toast-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes progress-linear {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* Accent colors for severity levels */
+.sev-info {
+  --accent: #2c6beb;
+}
+
+.sev-success {
+  --accent: #1b8c42;
+}
+
+.sev-warning {
+  --accent: #d89211;
+}
+
+.sev-error {
+  --accent: #c53a2b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toastEnter,
+  .toastExit,
+  .progress {
+    animation: none;
+    transform: none;
+    scale: 1 1;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 520px) {
+  .toastStack {
+    right: 50%;
+    transform: translateX(50%);
+    left: auto;
+  }
+  .toastFooter .actionBtn {
+    margin-right: 16px;
+  }
+}

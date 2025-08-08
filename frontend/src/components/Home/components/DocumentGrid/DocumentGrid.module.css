@@ -1,0 +1,17 @@
+/* src/components/Home/components/DocumentGrid/DocumentGrid.module.css */
+/* Grid layout for document cards and empty-state styling */
+
+.documentsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 40px; /* space between grid and footer */
+}
+
+.noResults {
+  width: 100%;
+  text-align: center;
+  padding: 40px 0;
+  color: #666;
+  font-size: 18px;
+}

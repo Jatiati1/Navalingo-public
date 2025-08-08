@@ -1,0 +1,140 @@
+/* frontend/src/components/Features/Security/ConfirmEmailModal.module.css */
+
+:root {
+  --cem-bg: #ffffff;
+  --cem-text: #333333;
+  --cem-muted: #555555;
+  --cem-border: #d1d5db;
+  --cem-focus: #0059b3;
+  --cem-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --cem-chip: #f3f4f6;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  overscroll-behavior: contain;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modalContent {
+  max-width: 480px;
+  width: 90%;
+  background: var(--cem-bg);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: var(--cem-shadow);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modalOverlay {
+    animation: none;
+  }
+}
+
+.modalTitle {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--cem-text);
+}
+
+.modalDescription {
+  font-size: 15px;
+  color: var(--cem-muted);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.emailDisplay {
+  background-color: var(--cem-chip);
+  border: 1px solid var(--cem-border);
+  padding: 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--cem-text);
+  margin-bottom: 30px;
+  word-wrap: break-word;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.button,
+.confirmButton,
+.cancelButton {
+  padding: 10px 20px;
+  border: none;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.confirmButton {
+  background-color: var(--cem-focus);
+  color: #ffffff;
+}
+
+.confirmButton:hover:not(:disabled) {
+  filter: brightness(1.02);
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: var(--cem-muted);
+  border: 1px solid var(--cem-border);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: #f6f7f9;
+  color: #2f3944;
+}
+
+.button:disabled,
+.confirmButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button:focus-visible,
+.confirmButton:focus-visible,
+.cancelButton:focus-visible {
+  outline: 2px solid var(--cem-focus);
+  outline-offset: 2px;
+}
+
+/* High contrast / forced colors */
+@media (forced-colors: active) {
+  .confirmButton,
+  .cancelButton {
+    forced-color-adjust: none;
+    border: 1px solid ButtonText;
+    color: ButtonText;
+    background: Canvas;
+  }
+}

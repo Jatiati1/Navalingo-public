@@ -1,0 +1,76 @@
+/* frontend/src/components/Account/sections/Security/Security.module.css */
+
+/* Section layout */
+.securitySection {
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.description {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  max-width: 600px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+/* Delete section */
+.deleteSectionContainer {
+  margin-top: 15px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border-color);
+}
+
+.deleteHeading {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #c53030; /* accessible red */
+}
+
+.deleteDescription {
+  font-size: 14px;
+  color: var(--text-color-secondary);
+  max-width: 600px;
+  margin-bottom: 15px;
+}
+
+.deleteButton {
+  /* base button styles */
+  padding: 0 15px;
+  height: 42px;
+  background: none;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  font-size: 14px;
+
+  /* red theme */
+  border: 1px solid #c53030;
+  color: #c53030;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: rgba(197, 48, 48, 0.05);
+}
+
+/* Validation error message */
+.validationError {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  margin-left: 5px;
+  font-size: 13px;
+  color: #c0392b;
+  transition: color 0.3s ease;
+}
+
+.errorIcon {
+  margin-right: 8px;
+  font-weight: bold;
+  line-height: 1;
+}
