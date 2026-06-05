@@ -42,7 +42,7 @@ export function useReviewPanel({
     }));
 
     const filtered = mapped.filter(
-      (s) => !rejectedKeysRef.current.has(makeKey(s))
+      (s) => !rejectedKeysRef.current.has(makeKey(s)),
     );
 
     setInternalSuggestions(filtered);
@@ -67,7 +67,7 @@ export function useReviewPanel({
         start: remapPos(s.start),
         end: remapPos(s.end),
       })),
-    [internalSuggestions, remapPos]
+    [internalSuggestions, remapPos],
   );
 
   // Notify when suggestions clear
@@ -93,7 +93,7 @@ export function useReviewPanel({
 
   const activeSuggestion = useMemo(
     () => suggestionsWithLivePositions.find((s) => s.id === activeId) ?? null,
-    [suggestionsWithLivePositions, activeId]
+    [suggestionsWithLivePositions, activeId],
   );
 
   // Accept single suggestion (preview-only)
@@ -110,7 +110,7 @@ export function useReviewPanel({
     editsRef.current.push({ start, end, delta, newText: suggested_phrase });
 
     setInternalSuggestions((prev) =>
-      prev.filter((s) => s.id !== activeSuggestion.id)
+      prev.filter((s) => s.id !== activeSuggestion.id),
     );
   }, [activeSuggestion, liveText]);
 
@@ -134,6 +134,7 @@ export function useReviewPanel({
         end: base.end,
         rangeKey: `${base.start}-${base.end}`,
         original,
+        original_phrase: original,
         replacement,
         rule: base.rule ?? base.ruleId ?? base.category ?? null,
         message: base.message ?? base.explanation ?? "",
@@ -143,42 +144,41 @@ export function useReviewPanel({
       onReject?.(payload);
       setInternalSuggestions((prev) => prev.filter((x) => makeKey(x) !== key));
     },
-    [internalSuggestions, onReject]
+    [internalSuggestions, onReject],
   );
 
   // Accept all → compute final text in order and hand off to parent
   const handleAcceptAll = useCallback(() => {
-    let next = originalText;
-    let shift = 0;
+    // Start with the current liveText, which reflects any single accepts.
+    let next = liveText;
 
-    internalSuggestions
+    // Use suggestions with remapped positions and sort them in reverse order.
+    suggestionsWithLivePositions
       .slice()
-      .sort((a, b) => a.start - b.start)
+      .sort((a, b) => b.start - a.start) // Sort DESCENDING by start index.
       .forEach((s) => {
-        const aStart = s.start + shift;
-        const aEnd = s.end + shift;
         const repl = s.suggested_phrase ?? s.replacement;
-
-        next = next.substring(0, aStart) + repl + next.substring(aEnd);
-        shift += repl.length - (s.end - s.start);
+        // By replacing from the end, the start/end indices of earlier
+        // suggestions remain valid without needing a 'shift' calculation.
+        next = next.substring(0, s.start) + repl + next.substring(s.end);
       });
 
     onFinish(next);
-  }, [onFinish, originalText, internalSuggestions]);
+  }, [onFinish, liveText, suggestionsWithLivePositions]);
 
   // Keyboard/arrow navigation between suggestions
   const handleNavigate = useCallback(
     (dir) => {
       if (suggestionsWithLivePositions.length < 2) return;
       const idx = suggestionsWithLivePositions.findIndex(
-        (s) => s.id === activeId
+        (s) => s.id === activeId,
       );
       const nextIdx =
         (idx + dir + suggestionsWithLivePositions.length) %
         suggestionsWithLivePositions.length;
       setActiveId(suggestionsWithLivePositions[nextIdx].id);
     },
-    [suggestionsWithLivePositions, activeId]
+    [suggestionsWithLivePositions, activeId],
   );
 
   return {

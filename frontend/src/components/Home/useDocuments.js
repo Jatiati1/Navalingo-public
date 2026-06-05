@@ -52,7 +52,7 @@ export function useDocuments() {
           fetched.map((d) => ({
             id: d.id.slice(0, 6),
             updatedAt: d.updatedAt,
-          }))
+          })),
         );
       }
 
@@ -173,7 +173,7 @@ export function useDocuments() {
         });
       }
     },
-    [documents, showToast]
+    [documents, showToast],
   );
 
   return {

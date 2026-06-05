@@ -58,11 +58,11 @@ export function ToastProvider({
   const removeToast = useCallback(
     (id) => {
       setToasts((curr) =>
-        curr.map((t) => (t.id === id ? { ...t, _exiting: true } : t))
+        curr.map((t) => (t.id === id ? { ...t, _exiting: true } : t)),
       );
       setTimeout(() => reallyRemove(id), 170);
     },
-    [reallyRemove]
+    [reallyRemove],
   );
 
   /** Starts auto-dismiss timer for a toast if applicable */
@@ -74,7 +74,7 @@ export function ToastProvider({
       const timer = setTimeout(() => removeToast(toast.id), toast.duration);
       timersRef.current.set(toast.id, timer);
     },
-    [removeToast]
+    [removeToast],
   );
 
   /**
@@ -124,7 +124,7 @@ export function ToastProvider({
       scheduleTimer(toast);
       return id;
     },
-    [defaultDuration, maxToasts, scheduleTimer]
+    [defaultDuration, maxToasts, scheduleTimer],
   );
 
   /** Pauses all active toast timers (e.g., on hover) */
@@ -173,7 +173,7 @@ export function ToastProvider({
     } else {
       if (isOfflineToastVisible.current) {
         setToasts((current) =>
-          current.filter((t) => t.dedupeKey !== OFFLINE_TOAST_KEY)
+          current.filter((t) => t.dedupeKey !== OFFLINE_TOAST_KEY),
         );
         showToast("You are back online!", {
           severity: "success",

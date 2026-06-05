@@ -7,7 +7,7 @@ const mask = (num = "") =>
   num
     ? num.replace(
         /^(\+\d{2})(\d+)(\d{2})$/,
-        (_, a, b, c) => `${a}${"*".repeat(b.length)}${c}`
+        (_, a, b, c) => `${a}${"*".repeat(b.length)}${c}`,
       )
     : "";
 

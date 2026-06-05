@@ -11,6 +11,11 @@ import {
 } from "../../../api/documentService";
 import { getEditorToastFromError } from "../../../utils/editor/dashboardErrors.js";
 import { $getRoot, $createParagraphNode, $createTextNode } from "lexical";
+import {
+  calculateInflatedCap,
+  getWordLimits,
+} from "../../../utils/editor/wordLimit";
+import { useAuth } from "../../../context/AuthContext";
 
 const VALID_EMPTY_STATE = JSON.stringify({
   root: {
@@ -38,6 +43,8 @@ const VALID_EMPTY_STATE = JSON.stringify({
 export function useActiveDocument(docId, editorRef, liveCap) {
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const { currentUser } = useAuth();
+  const isPro = currentUser?.subscriptionTier === "pro";
 
   const [docTitle, setDocTitle] = useState("");
   const lastSavedContentRef = useRef(null);
@@ -69,7 +76,7 @@ export function useActiveDocument(docId, editorRef, liveCap) {
       setDocTitle(
         normalizedDocumentData.title !== "Untitled Document"
           ? normalizedDocumentData.title
-          : ""
+          : "",
       );
     }
     if (normalizedDocumentData?.content) {
@@ -105,7 +112,8 @@ export function useActiveDocument(docId, editorRef, liveCap) {
     },
     onError: (err) => {
       const t = getEditorToastFromError(err, { action: "save_content" });
-      showToast(t.message, { severity: t.severity });
+      // Use a more specific error key to avoid collision with translation errors
+      showToast(t.message, { severity: t.severity, dedupeKey: "save-error" });
     },
   });
 
@@ -127,7 +135,7 @@ export function useActiveDocument(docId, editorRef, liveCap) {
         debouncedContentSave(jsonString);
       }
     },
-    [debouncedContentSave]
+    [debouncedContentSave, liveCap], // Added liveCap dependency
   );
 
   /**
@@ -152,20 +160,29 @@ export function useActiveDocument(docId, editorRef, liveCap) {
             root.append(p);
           });
         },
-        { tag: `correct-grammar-${Date.now()}` }
+        { tag: `correct-grammar-${Date.now()}` },
       );
 
       const jsonString = JSON.stringify(editor.getEditorState().toJSON());
       lastSavedContentRef.current = jsonString;
 
+      // CORRECTED LOGIC: Recalculate word count and the appropriate cap
+      // before saving, ensuring the backend validation passes.
+      const wordCount = newContent.trim().split(/\s+/u).filter(Boolean).length;
+      const { baseCap } = getWordLimits(isPro);
+      const newLiveCap = Math.max(
+        baseCap,
+        calculateInflatedCap(wordCount, isPro),
+      );
+
       debouncedContentSave.cancel();
-      updateContentMutation.mutate({ content: jsonString, cap: liveCap });
+      updateContentMutation.mutate({ content: jsonString, cap: newLiveCap });
 
       setTimeout(() => {
         isProgrammaticUpdate.current = false;
-      }, 0);
+      }, 50); // Increased timeout slightly for safety
     },
-    [editorRef, debouncedContentSave, updateContentMutation, liveCap]
+    [editorRef, debouncedContentSave, updateContentMutation, isPro],
   );
 
   return {

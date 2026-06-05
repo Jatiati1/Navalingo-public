@@ -64,7 +64,7 @@ export function useEmailChangeFlow(sendOtpCallback, showToastCallback) {
         setLoading(false);
       }
     },
-    [verificationId, showToastCallback]
+    [verificationId, showToastCallback],
   );
 
   const submitNewEmail = useCallback((email) => {

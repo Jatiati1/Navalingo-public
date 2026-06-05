@@ -1,5 +1,5 @@
 // src/features/Security/ReauthenticateModal.jsx
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -20,9 +20,7 @@ export default function ReauthenticateModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  if (!user) return null;
-
-  const isPasswordUser = user.providerData?.some(
+  const isPasswordUser = user?.providerData?.some(
     (p) => p.providerId === "password"
   );
 
@@ -31,6 +29,23 @@ export default function ReauthenticateModal({
   const errorId = "reauth-error";
   const inputId = "reauth-password-input";
 
+  // Focus the password field without using the `autoFocus` prop (a11y rule)
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (isPasswordUser && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isPasswordUser]);
+
+  // Listen for Escape globally instead of attaching keyboard handlers to a non-interactive element
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") onCancel?.();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onCancel]);
+
   const handlePasswordSubmit = useCallback(
     async (e) => {
       e.preventDefault();
@@ -38,7 +53,7 @@ export default function ReauthenticateModal({
       setLoading(true);
 
       try {
-        if (!user.email) {
+        if (!user || !user.email) {
           throw new Error("Missing email on account.");
         }
         const cred = EmailAuthProvider.credential(user.email, password);
@@ -65,12 +80,11 @@ export default function ReauthenticateModal({
     }
   }, [user, onSuccess]);
 
-  const onKeyDown = (e) => {
-    if (e.key === "Escape") onCancel?.();
-  };
+  // Render nothing if no current user (after hooks to satisfy rules-of-hooks)
+  if (!user) return null;
 
   return (
-    <div className={styles.modalOverlay} onKeyDown={onKeyDown}>
+    <div className={styles.modalOverlay}>
       <div
         className={styles.modalContent}
         role="dialog"
@@ -105,6 +119,7 @@ export default function ReauthenticateModal({
               Password
             </label>
             <input
+              ref={inputRef}
               id={inputId}
               type="password"
               className={styles.inputField}
@@ -115,7 +130,6 @@ export default function ReauthenticateModal({
                 if (error) setError("");
               }}
               disabled={loading}
-              autoFocus
               autoComplete="current-password"
               aria-invalid={!!error}
               aria-describedby={error ? errorId : undefined}

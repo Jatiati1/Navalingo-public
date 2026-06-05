@@ -2,10 +2,14 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { linkWithCredential, RecaptchaVerifier } from "firebase/auth";
+import {
+  linkWithCredential,
+  RecaptchaVerifier,
+  PhoneAuthProvider,
+} from "firebase/auth";
 import { auth } from "../../../../firebaseConfig";
 import { useAuth } from "../../../../context/AuthContext";
-import { updateUserProfile } from "../../../../api/userService";
+import api from "../../../../api/axios"; // <--- ADDED SECURE API IMPORT
 import { translateAuthError } from "../../../../utils/auth/authErrors";
 import styles from "./PhoneVerification.module.css";
 import EnterPhoneNumber from "./EnterPhoneNumber";
@@ -17,11 +21,11 @@ export default function PhoneVerification() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verifier, setVerifier] = useState(null);
   const [error, setError] = useState("");
+  const [autoSending, setAutoSending] = useState(false);
 
-  const { updateUser } = useAuth();
+  const { currentUser, updateUser } = useAuth();
   const navigate = useNavigate();
 
-  // Set up a single RecaptchaVerifier for the flow.
   useEffect(() => {
     const v = new RecaptchaVerifier(auth, "recaptcha-container", {
       size: "invisible",
@@ -30,25 +34,67 @@ export default function PhoneVerification() {
     return () => v.clear();
   }, []);
 
+  useEffect(() => {
+    if (
+      verifier &&
+      !verificationId &&
+      currentUser?.phoneNumber &&
+      !autoSending
+    ) {
+      const sendAutoSms = async () => {
+        setAutoSending(true);
+        setError("");
+        try {
+          const provider = new PhoneAuthProvider(auth);
+          const newVerificationId = await provider.verifyPhoneNumber(
+            currentUser.phoneNumber,
+            verifier,
+          );
+
+          setPhoneNumber(currentUser.phoneNumber);
+          setVerificationId(newVerificationId);
+        } catch (err) {
+          setError(
+            translateAuthError(err?.code) ||
+              "Failed to send automatic verification code. Please enter your number manually.",
+          );
+        } finally {
+          setAutoSending(false);
+        }
+      };
+
+      sendAutoSms();
+    }
+  }, [verifier, verificationId, currentUser, autoSending]);
+
   const handleCodeSent = useCallback((newId, fullPhone) => {
     setError("");
     setVerificationId(newId);
     setPhoneNumber(fullPhone);
   }, []);
 
+  // THE FIX: Use the secure backend linking route
   const handleVerificationSuccess = useCallback(
     async (phoneCredential) => {
       setError("");
       try {
+        // 1. Link the credential to the Firebase Auth session
         await linkWithCredential(auth.currentUser, phoneCredential);
-        await updateUserProfile({ phoneNumber, phoneVerified: true });
+
+        // 2. Force Firebase to generate a fresh token that includes the new phone number
+        const idToken = await auth.currentUser.getIdToken(true);
+
+        // 3. Send that secure token to your dedicated phone linking route
+        await api.post("/user/phone/link", { idToken });
+
+        // 4. Update the local React state to unlock the dashboard
         updateUser({ phoneVerified: true, phoneNumber });
         navigate("/home", { replace: true });
       } catch (e) {
         setError(translateAuthError(e.code) || "An unexpected error occurred.");
       }
     },
-    [navigate, phoneNumber, updateUser]
+    [navigate, phoneNumber, updateUser],
   );
 
   return (
@@ -57,7 +103,11 @@ export default function PhoneVerification() {
       <div className={styles.verificationContainer}>
         {error && <div className={styles.errorMessage}>{error}</div>}
 
-        {!verificationId ? (
+        {autoSending && !verificationId ? (
+          <div className={styles.loadingMessage}>
+            Sending verification code to your phone number...
+          </div>
+        ) : !verificationId ? (
           <EnterPhoneNumber
             onCodeSent={handleCodeSent}
             verifier={verifier}

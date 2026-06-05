@@ -134,13 +134,13 @@ const MESSAGE_MAP = {
   },
   FREE_USER_INSUFFICIENT_CREDITS: {
     message:
-      "You're out of credits for the week. Upgrade to Pro to get 50 now, plus more features.",
+      "You're out of credits for the week. Upgrade to Pro to get 25 daily credits, plus more features.",
     severity: "warning",
     actionLabel: "Upgrade to Pro",
     persist: true,
   },
   PRO_USER_INSUFFICIENT_CREDITS: {
-    message: "You're out of weekly credits. Credits reset every week.",
+    message: "You're out of daily credits. Credits reset every day.",
     severity: "info",
   },
 

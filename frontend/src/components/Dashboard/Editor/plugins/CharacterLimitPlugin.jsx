@@ -63,13 +63,13 @@ export default function CharacterLimitPlugin({ liveCap }) {
         if (rootElement) {
           rootElement.addEventListener("beforeinput", handleBeforeInput);
         }
-      }
+      },
     );
 
     const unregisterInsert = editor.registerCommand(
       CONTROLLED_TEXT_INSERTION_COMMAND,
       handleCommandInsertion,
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
 
     // Truncate pasted text to remaining capacity.
@@ -107,7 +107,7 @@ export default function CharacterLimitPlugin({ liveCap }) {
         });
         return true;
       },
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
 
     return () => {

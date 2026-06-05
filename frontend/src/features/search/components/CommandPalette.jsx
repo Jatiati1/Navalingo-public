@@ -26,7 +26,7 @@ export default function CommandPalette() {
   useEffect(() => {
     if (open) {
       setSelected(results.length ? 0 : -1);
-      requestAnimationFrame(() => inputRef.current?.focus());
+      if (inputRef.current) inputRef.current.focus();
     }
   }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -68,7 +68,7 @@ export default function CommandPalette() {
         }
       }
     },
-    [open, results, selected, close]
+    [open, results, selected, close],
   );
 
   if (!open) return null;

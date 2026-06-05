@@ -27,7 +27,7 @@ export function useAIAssistant(
   docId,
   updateEditorContent,
   isPro,
-  liveCap
+  liveCap,
 ) {
   const { showToast, removeToast } = useToast();
   const { updateUser } = useAuth();
@@ -60,7 +60,7 @@ export function useAIAssistant(
         updateUser((prev) => ({ ...prev, credits: response.credits }));
       }
     },
-    [updateUser]
+    [updateUser],
   );
 
   const startGrammarReview = useCallback(
@@ -73,17 +73,28 @@ export function useAIAssistant(
 
       latestSourceTextRef.current = text;
 
-      // Validate stored rejections against current text
+      // Validate stored rejections against current text.
+      // Keep item if its range is valid within the current text.
+      // If originalText exists, also require the slice to match; otherwise allow it.
       const validRejections = rejectionList.filter((item) => {
+        if (!item || typeof item.rangeKey !== "string") return false;
+        const [start, end] = item.rangeKey.split("-").map(Number);
         if (
-          !item ||
-          typeof item.rangeKey !== "string" ||
-          typeof item.originalText !== "string"
+          !Number.isFinite(start) ||
+          !Number.isFinite(end) ||
+          start < 0 ||
+          end <= start ||
+          end > text.length
         ) {
           return false;
         }
-        const [start, end] = item.rangeKey.split("-").map(Number);
-        const currentSlice = text.substring(start, end);
+        if (
+          typeof item.originalText !== "string" ||
+          item.originalText.length === 0
+        ) {
+          return true;
+        }
+        const currentSlice = text.slice(start, end);
         return currentSlice === item.originalText;
       });
 
@@ -91,7 +102,7 @@ export function useAIAssistant(
         setRejectionList(validRejections);
         localStorage.setItem(
           `rejectionList_${docId}`,
-          JSON.stringify(validRejections)
+          JSON.stringify(validRejections),
         );
       }
 
@@ -106,7 +117,7 @@ export function useAIAssistant(
         const res = await correctGrammar(
           text,
           liveCap,
-          validRejections.map((i) => i.rangeKey)
+          validRejections.map((i) => i.rangeKey),
         );
         removeToast(toastId);
         handleApiResponse(res);
@@ -135,7 +146,7 @@ export function useAIAssistant(
       rejectionList,
       docId,
       handleApiResponse,
-    ]
+    ],
   );
 
   const startTranslation = useCallback(
@@ -179,7 +190,7 @@ export function useAIAssistant(
             snippet,
             lang,
             isPro ? 600 : 200,
-            liveCap
+            liveCap,
           );
           removeToast(toastId);
           handleApiResponse(res);
@@ -200,25 +211,18 @@ export function useAIAssistant(
             null,
             lang,
             isPro ? 600 : 200,
-            liveCap
+            liveCap,
           );
           removeToast(toastId);
           handleApiResponse(res);
 
-          const { resultArray } = res;
-          editor.update(() => {
-            const root = $getRoot();
-            root.clear();
-            resultArray.forEach((line) => {
-              const p = $createParagraphNode();
-              if (line) p.append($createTextNode(line));
-              root.append(p);
-            });
-          });
-
-          // If your updateEditorContent persists state immediately, keep this call.
-          // (Signature may vary in your codebase.)
-          updateEditorContent?.();
+          // The API response includes a 'result' key with the full translated text string.
+          // The updateEditorContent function handles both updating the editor state
+          // and persisting the change immediately. This avoids the redundant local
+          // update and the TypeError from the incorrect call.
+          if (res.result) {
+            updateEditorContent(res.result);
+          }
         }
       } catch (error) {
         removeToast(toastId);
@@ -238,7 +242,7 @@ export function useAIAssistant(
       removeToast,
       handleApiResponse,
       updateEditorContent,
-    ]
+    ],
   );
 
   const handleFinishReview = useCallback(() => {
@@ -246,18 +250,29 @@ export function useAIAssistant(
     setSuggestions([]);
   }, []);
 
+  // Persist rejections with a stable rangeKey and a reliable originalText
   const handleRejectSuggestion = useCallback(
     (rejected) => {
       if (!rejected) return;
 
+      // Try to capture a trustworthy original text for this range
+      const originalFromPayload =
+        rejected.original_phrase ??
+        rejected.original ??
+        (typeof rejected.start === "number" &&
+          typeof rejected.end === "number" &&
+          latestSourceTextRef.current
+          ? latestSourceTextRef.current.slice(rejected.start, rejected.end)
+          : "");
+
       const entry = {
         rangeKey: rejected.rangeKey ?? `${rejected.start}-${rejected.end}`,
-        originalText: rejected.original_phrase,
+        originalText: originalFromPayload,
       };
 
       const next = [...rejectionList, entry];
       const unique = Array.from(
-        new Map(next.map((i) => [i.rangeKey, i])).values()
+        new Map(next.map((i) => [i.rangeKey, i])).values(),
       );
 
       setRejectionList(unique);
@@ -265,7 +280,7 @@ export function useAIAssistant(
 
       setSuggestions((prev) => prev.filter((s) => s.id !== rejected.id));
     },
-    [docId, rejectionList]
+    [docId, rejectionList],
   );
 
   return {

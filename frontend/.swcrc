@@ -1,0 +1,15 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true /* ← turn JSX parsing on            */,
+      "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic" /* Vite already uses the new JSX   */
+      }
+    }
+  },
+  "module": { "type": "commonjs" } /* Jest needs CJS output        */
+}

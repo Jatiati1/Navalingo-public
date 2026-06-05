@@ -15,7 +15,7 @@ function Logo({ size = "small", color = "default" }) {
           <path
             d="M 25 55 L 25 5 L 65 55 L 65 5 L 55 15 M 65 5 L 75 15"
             className={styles.symbol}
-            strokeWidth="12" /* MODIFIED: Increased from 10 to add visual weight */
+            strokeWidth="12"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"

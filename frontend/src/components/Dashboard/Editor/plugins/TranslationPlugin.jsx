@@ -45,7 +45,7 @@ export async function handleTranslate({
       snippet,
       lang,
       baseCap,
-      liveCap
+      liveCap,
     );
 
     let insert = result;
@@ -57,7 +57,7 @@ export async function handleTranslate({
         const sel = $getSelection();
         if ($isRangeSelection(sel)) sel.insertText(insert);
       },
-      { tag: TAG }
+      { tag: TAG },
     );
     return;
   }
@@ -74,7 +74,7 @@ export async function handleTranslate({
     null, // auto-detect source language
     lang,
     baseCap,
-    liveCap
+    liveCap,
   );
 
   editorInstance.update(
@@ -90,6 +90,6 @@ export async function handleTranslate({
         });
       }
     },
-    { tag: TAG }
+    { tag: TAG },
   );
 }

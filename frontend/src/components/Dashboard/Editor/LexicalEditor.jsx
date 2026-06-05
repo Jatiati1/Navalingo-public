@@ -109,7 +109,7 @@ const LexicalEditor = memo(function LexicalEditor(props) {
       },
       nodes: [HeadingNode, QuoteNode, ListNode, ListItemNode, LinkNode],
     }),
-    [locked]
+    [locked],
   );
 
   return (

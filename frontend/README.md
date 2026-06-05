@@ -1,5 +1,13 @@
-﻿# Navalingo Frontend (Display-Only)
+# LexiLingo — Frontend (React + Vite + SWC)
 
-This folder contains the React/Lexical source for the Navalingo editor UI.
-It is provided for code review and portfolio purposes only.
-**Not intended or supported for local execution.**
+## Tech Stack
+- **Framework**: React 18
+- **Bundler**: Vite (with SWC compiler)
+- **Editor**: Lexical
+- **Data Fetching**: React Query, Axios
+- **Routing**: React Router DOM
+- **Testing**: Jest, React Testing Library
+
+
+
+---

@@ -43,7 +43,11 @@ function TryPro() {
             tools, expanded limits, and get the accuracy you need for
             professional work.
           </p>
-          <button onClick={handleUpgrade} className={styles.heroButton}>
+          <button
+            type="button"
+            onClick={handleUpgrade}
+            className={styles.heroButton}
+          >
             Upgrade to Pro
           </button>
         </div>
@@ -84,31 +88,31 @@ function TryPro() {
         <FeatureShowcase
           icon="📈"
           title="Expand Your Creative Capacity"
-          description="Handle larger projects with increased limits on word counts, storage, and weekly credits."
+          description="Handle larger projects with increased limits on word counts, storage, and daily credits."
         >
           {/* Limits overview */}
           <div className={styles.visualLimits}>
             <div className={styles.limitItem}>
-              <label>Weekly Credits</label>
-              <div className={styles.limitBar}>
+              <p className={styles.limitLabel}>Daily Credits</p>
+              <div className={styles.limitBar} aria-hidden="true">
                 <div className={styles.freeBar} style={{ width: "40%" }}>
                   10
                 </div>
               </div>
-              <div className={styles.limitBar}>
+              <div className={styles.limitBar} aria-hidden="true">
                 <div className={styles.proBar} style={{ width: "100%" }}>
                   25
                 </div>
               </div>
             </div>
             <div className={styles.limitItem}>
-              <label>Document Storage</label>
-              <div className={styles.limitBar}>
+              <p className={styles.limitLabel}>Document Storage</p>
+              <div className={styles.limitBar} aria-hidden="true">
                 <div className={styles.freeBar} style={{ width: "10%" }}>
                   8
                 </div>
               </div>
-              <div className={styles.limitBar}>
+              <div className={styles.limitBar} aria-hidden="true">
                 <div className={styles.proBar} style={{ width: "100%" }}>
                   80
                 </div>

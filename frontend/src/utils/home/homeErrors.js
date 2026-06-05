@@ -191,7 +191,7 @@ export function getHomeToastFromAxiosError(axiosError, opts = {}) {
     return getHomeToast(
       specificCode === "DOC_LIMIT_REACHED"
         ? "DOC_LIMIT_REACHED"
-        : "CREATE_FAILED"
+        : "CREATE_FAILED",
     );
   }
 

@@ -51,10 +51,10 @@ const SuggestionCard = ({
     categoryColorMap[issue.category] || categoryColorMap.Default;
 
   const safeOriginal = DOMPurify.sanitize(
-    issue.original_phrase ?? issue.original
+    issue.original_phrase ?? issue.original,
   );
   const safeReplacement = DOMPurify.sanitize(
-    issue.suggested_phrase ?? issue.replacement
+    issue.suggested_phrase ?? issue.replacement,
   );
   const safeExplanation = DOMPurify.sanitize(issue.explanation);
 
@@ -198,7 +198,7 @@ export default function ReviewPanel({
           onClick={() => setActiveId(sugg.id)}
         >
           {textAtPosition}
-        </span>
+        </span>,
       );
 
       lastIndex = sugg.end;

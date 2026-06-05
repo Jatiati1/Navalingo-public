@@ -55,7 +55,7 @@ export function usePasswordChangeFlow(sendOtpCallback, showToastCallback) {
         setLoading(false);
       }
     },
-    [verificationId, showToastCallback]
+    [verificationId, showToastCallback],
   );
 
   const updatePassword = useCallback(
@@ -67,13 +67,13 @@ export function usePasswordChangeFlow(sendOtpCallback, showToastCallback) {
         setStep("idle");
       } catch (err) {
         showToastCallback(
-          err.response?.data?.error || "Failed to update password."
+          err.response?.data?.error || "Failed to update password.",
         );
       } finally {
         setLoading(false);
       }
     },
-    [showToastCallback]
+    [showToastCallback],
   );
 
   const cancelFlow = useCallback(() => {

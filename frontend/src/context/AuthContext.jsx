@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import React, {
   createContext,
   useContext,
@@ -12,53 +11,44 @@ import { fetchCsrfToken } from "../api/axios";
 import { registerRetryHandler } from "../utils/auth/retryService";
 
 const AuthContext = createContext(null);
+
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  // State
   const [currentUser, setCurrentUser] = useState(null);
   const [isAuthenticated, setAuth] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [csrfToken, setCsrfToken] = useState(null);
 
-  // Called after a successful login flow
-  const loginSuccess = useCallback((userData) => {
-    setAuth(true);
-    setCurrentUser(userData);
-    setError(null);
-  }, []);
-
-  // Clear client-side auth state only
   const clearClientAuth = useCallback(() => {
     setCurrentUser(null);
     setAuth(false);
     setCsrfToken(null);
+    setError(null);
   }, []);
 
-  // User-initiated logout
-  const logout = useCallback(async () => {
-    try {
-      await apiLogout();
-    } finally {
-      clearClientAuth();
-    }
-  }, [clearClientAuth]);
-
-  // Check session and hydrate profile + CSRF
   const checkSession = useCallback(async () => {
-    if (!navigator.onLine) return;
-
     setError(null);
     setLoading(true);
 
+    if (!navigator.onLine) {
+      setLoading(false);
+      return;
+    }
+
     try {
+      // THIS FETCHES THE FULL, PERFECT PROFILE
       const profile = await getUserProfile();
       setCurrentUser(profile);
       setAuth(true);
 
-      const token = await fetchCsrfToken();
-      setCsrfToken(token);
+      try {
+        const token = await fetchCsrfToken();
+        setCsrfToken(token);
+      } catch {
+        setCsrfToken(null);
+      }
     } catch (e) {
       if (e?.response?.status === 401 || e?.response?.status === 403) {
         clearClientAuth();
@@ -70,35 +60,46 @@ export const AuthProvider = ({ children }) => {
     }
   }, [clearClientAuth]);
 
-  // Refresh only the current user profile (keeps auth if still valid)
+  // THE FIX: Do not accept partial data. Force a pristine fetch.
+  const loginSuccess = useCallback(async () => {
+    await checkSession();
+  }, [checkSession]);
+
+  const logout = useCallback(async () => {
+    try {
+      await apiLogout();
+    } finally {
+      clearClientAuth();
+    }
+  }, [clearClientAuth]);
+
   const refreshCurrentUser = useCallback(async () => {
     try {
       const profile = await getUserProfile();
       setCurrentUser(profile);
+      setAuth(true);
     } catch {
       clearClientAuth();
     }
   }, [clearClientAuth]);
 
-  // Initial session check on mount
   useEffect(() => {
     checkSession();
   }, [checkSession]);
 
-  // Register background retry handler for failed requests
   useEffect(() => {
     const cleanup = registerRetryHandler(checkSession);
     return cleanup;
   }, [checkSession]);
 
-  // Auto-refresh profile when credit reset timer expires
   useEffect(() => {
     const resetIso = currentUser?.credits?.resets;
     if (!resetIso) return;
 
     const resetDate = new Date(resetIso);
     const now = new Date();
-    if (isNaN(resetDate.getTime()) || resetDate <= now) return;
+
+    if (Number.isNaN(resetDate.getTime()) || resetDate <= now) return;
 
     const delay = resetDate.getTime() - now.getTime();
     const timerId = setTimeout(() => {
@@ -108,11 +109,10 @@ export const AuthProvider = ({ children }) => {
     return () => clearTimeout(timerId);
   }, [currentUser?.credits?.resets, refreshCurrentUser]);
 
-  // Exposed context value
   const value = useMemo(
     () => ({
       currentUser,
-      user: currentUser, // legacy alias
+      user: currentUser,
       csrfToken,
       isAuthenticated,
       loading,

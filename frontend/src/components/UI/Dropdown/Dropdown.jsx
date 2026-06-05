@@ -9,7 +9,7 @@ import styles from "./Dropdown.module.css";
  */
 const Dropdown = forwardRef(function Dropdown(
   { children, className = "", style = {}, ...props },
-  ref
+  ref,
 ) {
   return (
     <div

@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ffffff; /* Use a fixed light background color */
+  background-color: #ffffff;
   z-index: 9999;
 }
 

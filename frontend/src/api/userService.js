@@ -1,5 +1,5 @@
-// frontend/src/api/userService.js
-// User profile/preferences helpers and a couple of dev-only helpers.
+// src/api/userService.js
+// User profile and preferences helpers plus a couple of dev-only helpers.
 
 import axiosInstance from "./axios";
 
@@ -10,14 +10,8 @@ export async function getThemePreference() {
 
 // Language preferences.
 export async function saveLanguagePreference(language) {
-  try {
-    const { data } = await axiosInstance.put("/users/preferences", {
-      language,
-    });
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.put("/users/preferences", { language });
+  return data;
 }
 
 export async function getLanguagePreference() {
@@ -30,13 +24,14 @@ export async function getLanguagePreference() {
 }
 
 // Profile and account actions.
+/**
+ * Updates allowed profile fields.
+ * Note: The backend whitelist currently allows: ["name", "username", "picture", "bio", "onboardingCompleted"].
+ * Any other fields (like subscriptionTier or phoneVerified) will trigger a 403 Forbidden error.
+ */
 export async function updateUserProfile(updates) {
-  try {
-    const { data } = await axiosInstance.put("/users/profile", updates);
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.put("/users/profile", updates);
+  return data;
 }
 
 export async function getUserProfile() {
@@ -48,50 +43,40 @@ export async function getUserProfile() {
   }
 }
 
+export async function updateEmail(newEmail) {
+  const { data } = await axiosInstance.put("/users/email", { newEmail });
+  return data;
+}
+
+export async function updatePassword(newPassword) {
+  const { data } = await axiosInstance.put("/users/password", { newPassword });
+  return data;
+}
+
 export async function deleteAccount() {
-  try {
-    const { data } = await axiosInstance.delete("/users");
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.delete("/users");
+  return data;
 }
 
 // Phone verification/linking.
 export async function linkPhoneNumber(idToken) {
-  try {
-    const { data } = await axiosInstance.post("/user/phone/link", { idToken });
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.post("/user/phone/link", { idToken });
+  return data;
 }
 
 // Update phone number.
 export async function updateUserPhoneNumber(newPhoneNumber) {
-  try {
-    const { data } = await axiosInstance.put("/user/phone", { newPhoneNumber });
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.put("/user/phone", { newPhoneNumber });
+  return data;
 }
 
 // Dev-only helpers (backend must expose these in development).
 export async function devUpgradeToPro() {
-  try {
-    const { data } = await axiosInstance.post("/users/dev-upgrade-to-pro");
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.post("/users/dev-upgrade-to-pro");
+  return data;
 }
 
 export async function devDowngradeToFree() {
-  try {
-    const { data } = await axiosInstance.post("/users/dev-downgrade-to-free");
-    return data;
-  } catch (e) {
-    throw e;
-  }
+  const { data } = await axiosInstance.post("/users/dev-downgrade-to-free");
+  return data;
 }

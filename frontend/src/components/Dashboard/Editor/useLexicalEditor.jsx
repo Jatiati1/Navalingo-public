@@ -46,7 +46,7 @@ export function AutoFocusPlugin() {
   useEffect(() => {
     const id = setTimeout(
       () => editor?.focus(undefined, { defaultSelection: "rootStart" }),
-      120
+      120,
     );
     return () => clearTimeout(id);
   }, [editor]);

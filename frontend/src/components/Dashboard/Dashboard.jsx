@@ -114,7 +114,7 @@ export default function Dashboard() {
         "TITLE_CHAR_LIMIT_EXCEEDED",
         {
           limit: MAX_CHARS_PER_WORD,
-        }
+        },
       );
       showToast(message, { severity });
       return;
@@ -127,7 +127,7 @@ export default function Dashboard() {
         "TITLE_WORD_LIMIT_EXCEEDED",
         {
           limit: MAX_TITLE_WORDS,
-        }
+        },
       );
       showToast(message, { severity });
     }
@@ -157,7 +157,7 @@ export default function Dashboard() {
           actionLabel: "Upgrade to Pro",
           onAction: () => navigate("/account/subscription"),
           subMessage: `Credits reset in ${timeRemaining}`,
-        }
+        },
       );
     }
     return false;

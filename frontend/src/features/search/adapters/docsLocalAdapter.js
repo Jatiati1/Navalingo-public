@@ -47,7 +47,7 @@ const DEFAULT_FUSE_OPTIONS = {
  */
 export function makeDocsLocalAdapter(
   docsGetter,
-  { limit = 20, fuseOptions = {} } = {}
+  { limit = 20, fuseOptions = {} } = {},
 ) {
   if (typeof docsGetter !== "function") {
     throw new Error("makeDocsLocalAdapter requires a function docsGetter()");
@@ -65,7 +65,7 @@ export function makeDocsLocalAdapter(
       docs.map((d) => ({
         ...d,
         title: (d.title && String(d.title)) || "Untitled Document",
-      }))
+      })),
     );
     indexedCount = docs.length;
   }
@@ -104,7 +104,7 @@ export function makeDocsLocalAdapter(
       const qLower = query.toLowerCase();
       return docs
         .filter((d) =>
-          ((d.title && d.title.toLowerCase()) || "").includes(qLower)
+          ((d.title && d.title.toLowerCase()) || "").includes(qLower),
         )
         .slice(0, limit)
         .map((d) => ({

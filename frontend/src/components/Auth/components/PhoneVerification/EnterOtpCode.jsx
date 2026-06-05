@@ -15,7 +15,7 @@ import styles from "./PhoneVerification.module.css";
 const mask = (num = "") =>
   num.replace(
     /^(\+\d{2})(\d+)(\d{2})$/,
-    (_, a, b, c) => `${a}${"*".repeat(b.length)}${c}`
+    (_, a, b, c) => `${a}${"*".repeat(b.length)}${c}`,
   );
 
 const INITIAL_RESEND_COOLDOWN = 30; // seconds
@@ -45,7 +45,7 @@ export default function EnterOtpCode({
   const handleResendCode = useCallback(async () => {
     if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
       setError(
-        "You have reached the maximum number of resend attempts. Please try again later."
+        "You have reached the maximum number of resend attempts. Please try again later.",
       );
       return;
     }
@@ -69,7 +69,8 @@ export default function EnterOtpCode({
       setCooldown(nextCooldown);
     } catch (e) {
       setError(
-        translateAuthError(e.code) || "Could not resend code. Please try again."
+        translateAuthError(e.code) ||
+          "Could not resend code. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -91,7 +92,7 @@ export default function EnterOtpCode({
       onSuccess(phoneCredential);
     } catch (e) {
       setError(
-        translateAuthError(e.code) || "The code you entered is incorrect."
+        translateAuthError(e.code) || "The code you entered is incorrect.",
       );
     } finally {
       setLoading(false);

@@ -37,7 +37,7 @@ export default function EnterPhoneNumber({
       }
       if (!verifier) {
         setError(
-          "Security verifier is not ready. Please try again in a moment."
+          "Security verifier is not ready. Please try again in a moment.",
         );
         return;
       }
@@ -50,7 +50,7 @@ export default function EnterPhoneNumber({
         const provider = new PhoneAuthProvider(auth);
         const verificationId = await provider.verifyPhoneNumber(
           phoneNumber,
-          verifier
+          verifier,
         );
 
         onCodeSent(verificationId, phoneNumber);
@@ -62,14 +62,14 @@ export default function EnterPhoneNumber({
           setError(
             friendly ||
               err?.response?.data?.error ||
-              "Could not verify phone number. Please try again."
+              "Could not verify phone number. Please try again.",
           );
         }
       } finally {
         setLoading(false);
       }
     },
-    [phoneNumber, verifier, onCodeSent]
+    [phoneNumber, verifier, onCodeSent],
   );
 
   return (

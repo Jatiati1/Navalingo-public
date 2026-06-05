@@ -14,7 +14,7 @@ import {
   getWordLimits,
   calculateInflatedCap,
   calculateDeflatedCap,
-} from "../../../../utils/wordLimit";
+} from "../../../../utils/editor/wordLimit";
 import CharacterLimitPlugin from "../plugins/CharacterLimitPlugin";
 import styles from "../LexicalEditor.module.css";
 
@@ -42,7 +42,7 @@ export function WordCountDisplay({ liveCap, onWordCountChange }) {
           }
         });
       }),
-    [editor, onWordCountChange]
+    [editor, onWordCountChange],
   );
 
   const [shake, setShake] = useState(false);
@@ -94,14 +94,15 @@ function CapManager({ liveCapRef, setLiveCap, isPro, baseCap, documentData }) {
         editorState.read(
           () =>
             $getRoot().getTextContent().trim().split(/\s+/u).filter(Boolean)
-              .length
+              .length,
         ) || 0;
 
       // Inflate when an AI write exceeds current cap; gate by unique tag.
       const aiTag =
         [...tags].find(
           (t) =>
-            t.startsWith("translate-final-") || t.startsWith("correct-grammar-")
+            t.startsWith("translate-final-") ||
+            t.startsWith("correct-grammar-"),
         ) || null;
       const isNewAiUpdate = aiTag && aiTag !== lastTagHandledRef.current;
 
@@ -134,8 +135,13 @@ export function useWordCap(isPro, documentData) {
     liveCapRef.current = liveCap;
   }, [liveCap]);
 
+  const prevBaseCap = useRef(baseCap);
+
   useEffect(() => {
-    setLiveCap(baseCap);
+    if (prevBaseCap.current !== baseCap) {
+      setLiveCap(baseCap);
+      prevBaseCap.current = baseCap;
+    }
   }, [baseCap]);
 
   const WordCapManager = useCallback(
@@ -148,12 +154,12 @@ export function useWordCap(isPro, documentData) {
         documentData={documentData}
       />
     ),
-    [isPro, baseCap, documentData]
+    [isPro, baseCap, documentData],
   );
 
   const WordLimitEnforcer = useCallback(
     () => <CharacterLimitPlugin liveCap={liveCap} />,
-    [liveCap]
+    [liveCap],
   );
 
   return { liveCap, WordCapManager, WordLimitEnforcer };

@@ -60,7 +60,7 @@ export function useGrammarSuggestions(editorRef, docId) {
       setRejectionList(next);
       localStorage.setItem(`rejectionList_${docId}`, JSON.stringify(next));
     },
-    [rejectionList, docId]
+    [rejectionList, docId],
   );
 
   const runCheck = useCallback(
@@ -74,7 +74,7 @@ export function useGrammarSuggestions(editorRef, docId) {
             maxWords: cap,
             extra: { rejectionList },
           },
-          csrfToken
+          csrfToken,
         );
 
         const result = await response.json();
@@ -98,7 +98,7 @@ export function useGrammarSuggestions(editorRef, docId) {
         showToast(message, { severity });
       }
     },
-    [editorRef, csrfToken, rejectionList, showToast]
+    [editorRef, csrfToken, rejectionList, showToast],
   );
 
   const clearSuggestions = useCallback(() => {

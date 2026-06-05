@@ -36,7 +36,7 @@ function Home() {
     const q = searchTerm.trim().toLowerCase();
     if (!q) return documents;
     return documents.filter((d) =>
-      (d.title || "Untitled Document").toLowerCase().includes(q)
+      (d.title || "Untitled Document").toLowerCase().includes(q),
     );
   }, [documents, searchTerm]);
 

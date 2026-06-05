@@ -61,7 +61,7 @@ export function SearchProvider({
             if (reqIdRef.current === currentReq) setLoading(false);
           });
       },
-      Math.max(0, delay)
+      Math.max(0, delay),
     );
 
     // Cleanup: cancel debounce and invalidate in-flight resolution.
@@ -74,7 +74,7 @@ export function SearchProvider({
 
   const value = useMemo(
     () => ({ query, setQuery, results, loading, error }),
-    [query, results, loading, error]
+    [query, results, loading, error],
   );
 
   return (

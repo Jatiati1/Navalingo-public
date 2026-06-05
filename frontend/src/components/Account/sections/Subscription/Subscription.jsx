@@ -1,4 +1,5 @@
 // frontend/src/components/Account/sections/Subscription/Subscription.jsx
+// frontend/src/components/Account/sections/Subscription/Subscription.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Subscription.module.css";
@@ -67,10 +68,10 @@ const FaqItem = ({ question, children }) => {
 function Subscription() {
   const { currentUser, refreshCurrentUser } = useAuth();
   const { showToast } = useToast();
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [upgradeProcessing, setUpgradeProcessing] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const confirmedFor = useRef(null); // prevent double-confirm on same sessionId
+  const confirmedFor = useRef(null);
 
   const isPro = currentUser?.subscriptionTier === "pro";
 
@@ -96,7 +97,6 @@ function Subscription() {
           "We couldn't confirm your upgrade yet. It may take a moment.";
         showToast(msg, { severity: "warning" });
       } finally {
-        // Clean the URL (remove session_id)
         sp.delete("session_id");
         navigate({ search: sp.toString() }, { replace: true });
       }
@@ -105,50 +105,30 @@ function Subscription() {
 
   // Upgrade → request Checkout URL, then redirect
   const handleUpgrade = async () => {
-    setIsProcessing(true);
+    setUpgradeProcessing(true);
     try {
       const { data } = await axiosInstance.post(
-        "/stripe/create-checkout-session"
+        "/stripe/create-checkout-session",
       );
       const { checkoutUrl } = data || {};
       if (!checkoutUrl) throw new Error("Missing checkoutUrl from server.");
-      window.location.assign(checkoutUrl); // Stripe Hosted Checkout
+      window.location.assign(checkoutUrl);
     } catch (error) {
       const msg =
         error?.response?.data?.error ||
         error?.message ||
         "Could not open the payment page. Please try again.";
       showToast(msg, { severity: "error" });
-      setIsProcessing(false);
+      setUpgradeProcessing(false);
     }
   };
 
-  // Downgrade → cancel subscription
-  const handleDowngrade = async () => {
-    const ok = window.confirm(
-      "Are you sure you want to downgrade? You will lose Pro access at the end of your current billing period."
-    );
-    if (!ok) return;
-
-    setIsProcessing(true);
-    try {
-      await axiosInstance.delete("/stripe/subscription");
-      await refreshCurrentUser();
-      showToast(
-        "Your Pro plan will be canceled at the end of your billing cycle.",
-        {
-          severity: "success",
-        }
-      );
-    } catch (error) {
-      const msg =
-        error?.response?.data?.error ||
-        "Could not process your downgrade request.";
-      showToast(msg, { severity: "error" });
-    } finally {
-      setIsProcessing(false);
-    }
+  // Downgrade → navigate to the 3-step non-modal flow
+  const handleDowngrade = () => {
+    navigate("/account/subscription/downgrade");
   };
+
+  const downgradeEnabled = isPro && !upgradeProcessing;
 
   return (
     <div className={styles.subscriptionPage}>
@@ -180,10 +160,10 @@ function Subscription() {
               for expert-level accuracy.
             </Feature>
             <Feature>
-              <span className={styles.featureEmphasis}>25 Weekly Credits</span>
+              <span className={styles.featureEmphasis}>25 Daily Credits</span>
               <br />
               <span className={styles.featureSubtext}>
-                More than double the power, every week.
+                More than five times the power, every week.
               </span>
             </Feature>
             <Feature>
@@ -199,19 +179,13 @@ function Subscription() {
               Save up to{" "}
               <span className={styles.featureEmphasis}>80 documents</span>
             </Feature>
-            <Feature>
-              <span className={styles.featureEmphasis}>
-                Exclusive Member Discount
-              </span>{" "}
-              on Extra Credits
-            </Feature>
           </ul>
           <button
             onClick={handleUpgrade}
-            disabled={isPro || isProcessing}
+            disabled={isPro || upgradeProcessing}
             className={`${styles.planButton} ${styles.proButton}`}
           >
-            {isProcessing && !isPro
+            {upgradeProcessing && !isPro
               ? "Redirecting..."
               : isPro
                 ? "Your Current Plan"
@@ -249,14 +223,18 @@ function Subscription() {
           </ul>
           <button
             onClick={handleDowngrade}
-            disabled={!isPro || isProcessing}
+            disabled={!downgradeEnabled}
             className={`${styles.planButton} ${styles.freeButton}`}
+            style={{ cursor: downgradeEnabled ? "pointer" : "not-allowed" }}
+            aria-disabled={!downgradeEnabled}
+            aria-label={
+              downgradeEnabled ? "Downgrade to Free" : "Free plan (current)"
+            }
+            title={
+              downgradeEnabled ? "Downgrade to Free" : "Free plan (current)"
+            }
           >
-            {isProcessing && isPro
-              ? "Processing..."
-              : !isPro
-                ? "Your Current Plan"
-                : "Downgrade to Free"}
+            {!isPro ? "Your Current Plan" : "Downgrade to Free"}
           </button>
         </div>
       </div>
@@ -274,10 +252,6 @@ function Subscription() {
             temporarily increases your word limit to ensure the entire result
             fits without being cut off. Pro plans have a more generous buffer
             for complex documents.
-          </FaqItem>
-          <FaqItem question="What if I run out of Credits?">
-            You can purchase additional Credit packs at any time. Pro
-            subscribers receive an exclusive discount on all packs.
           </FaqItem>
         </div>
       </div>

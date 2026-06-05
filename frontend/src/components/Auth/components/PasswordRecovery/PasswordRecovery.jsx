@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom";
 import styles from "./PasswordRecovery.module.css";
 import api from "../../../../api/axios";
 
+// --- ADDED START ---
+// Import the helper we just created!
+import { validatePhone } from "../../../../api/authService";
+// --- ADDED END ---
+
 // Firebase (phone OTP)
 import { PhoneAuthProvider, RecaptchaVerifier } from "firebase/auth";
 import { auth } from "../../../../firebaseConfig";
@@ -26,9 +31,9 @@ import EnterOtpCode from "../PhoneVerification/EnterOtpCode";
  * Phone-OTP–based password reset flow.
  *
  * Steps:
- *  1) Validate phone with backend, then send OTP via Firebase (invisible reCAPTCHA).
- *  2) Verify OTP.
- *  3) Set new password (client-side requirements enforced).
+ * 1) Validate phone with backend, then send OTP via Firebase (invisible reCAPTCHA).
+ * 2) Verify OTP.
+ * 3) Set new password (client-side requirements enforced).
  */
 export default function PasswordRecovery() {
   const navigate = useNavigate();
@@ -56,7 +61,7 @@ export default function PasswordRecovery() {
       "recaptcha-container-recovery",
       {
         size: "invisible",
-      }
+      },
     );
     setRecoveryVerifier(verifier);
 
@@ -85,14 +90,16 @@ export default function PasswordRecovery() {
 
     setLoading(true);
     try {
-      // Validate that the phone is eligible for password reset.
-      await api.post("/auth/validate-phone", { phoneNumber });
+      // --- CHANGED START ---
+      // Use the helper which correctly points to /auth/check-phone
+      await validatePhone(phoneNumber);
+      // --- CHANGED END ---
 
       // Send OTP via Firebase
       const phoneProvider = new PhoneAuthProvider(auth);
       const id = await phoneProvider.verifyPhoneNumber(
         phoneNumber,
-        recoveryVerifier
+        recoveryVerifier,
       );
       setVerificationId(id);
       setCurrentStep("enter_otp");
@@ -134,7 +141,7 @@ export default function PasswordRecovery() {
     } catch (err) {
       setError(
         err.response?.data?.error ||
-          "Failed to reset password. Please try again."
+          "Failed to reset password. Please try again.",
       );
     } finally {
       setLoading(false);

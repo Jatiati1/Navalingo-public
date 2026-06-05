@@ -43,7 +43,7 @@ export default function Security() {
   }, []);
 
   const isPasswordUser = authUser?.providerData?.some(
-    (p) => p.providerId === "password"
+    (p) => p.providerId === "password",
   );
 
   // Prevent starting more than one sensitive flow at a time
@@ -72,7 +72,7 @@ export default function Security() {
                 severity: "info",
                 duration: 3000,
                 dedupeKey: "no-password-provider",
-              }
+              },
             );
             return;
           }
@@ -89,7 +89,7 @@ export default function Security() {
       handleBeginPasswordChange,
       isPasswordUser,
       showToast,
-    ]
+    ],
   );
 
   const safeEmail = currentUser?.email || authUser?.email || "";
@@ -219,7 +219,7 @@ export default function Security() {
                   severity: "warning",
                   duration: 3200,
                   dedupeKey: "delete-blocked-active-flow",
-                }
+                },
               );
               return;
             }

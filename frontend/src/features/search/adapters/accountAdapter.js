@@ -92,7 +92,7 @@ export function makeAccountAdapter(getUser) {
       }
 
       const isPasswordUser = user?.providerData?.some(
-        (p) => p.providerId === "password"
+        (p) => p.providerId === "password",
       );
       if (isPasswordUser) {
         quick.push({

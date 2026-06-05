@@ -1,7 +1,7 @@
-// frontend/src/api/textProcessingService.js
+// src/api/textProcessingService.js
 // Text-processing API for translation and grammar correction.
 // - Normalizes rejectionList into ["start-end", ...] strings and deduplicates.
-// - Exposes processText plus convenience wrappers (translateText, correctGrammar, correctLive).
+// - Exposes processText plus convenience wrappers.
 
 import axiosInstance from "./axios";
 
@@ -47,20 +47,16 @@ const processText = async (
     extraPayload.rejectionList = normalizeRejectionList(extra.rejectionList);
   }
 
-  try {
-    const payload = {
-      text: originalText, // backend expects 'text'
-      action,
-      sourceLang,
-      targetLang,
-      maxWords,
-      extra: extraPayload,
-    };
-    const { data } = await axiosInstance.post("/process-text", payload);
-    return data;
-  } catch (err) {
-    throw err;
-  }
+  const payload = {
+    text: originalText, // backend expects 'text'
+    action,
+    sourceLang,
+    targetLang,
+    maxWords,
+    extra: extraPayload,
+  };
+  const { data } = await axiosInstance.post("/process-text", payload);
+  return data;
 };
 
 // Convenience wrappers

@@ -1,0 +1,292 @@
+/*frontend/src/components/Account/sections/Subscription/DowngradeFlow.module.css*/
+/* frontend/src/components/Account/sections/Subscription/DowngradeFlow.module.css */
+:root {
+  --brand: #1a56db;
+  --bg: #0f172a;
+  --card: #ffffff;
+  --ink: #0f172a;
+  --ink-soft: #4b5563;
+  --success: #10b981;
+  --danger: #ef4444;
+  --muted: #e5e7eb;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --shadow: 0 10px 30px rgba(2, 8, 23, 0.12);
+  --step-pill: #e0e7ff;
+}
+
+.shell {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* Card + headers */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.stageHead {
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  padding: 28px 28px 18px;
+  border-bottom: 1px solid var(--muted);
+}
+
+.title {
+  font-size: 26px;
+  margin: 0 0 6px;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.stepper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.stepPill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--step-pill);
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Layout */
+.body {
+  padding: 26px;
+}
+
+/* Step 1 and Step 2 grids */
+.grid2 {
+  display: grid;
+  gap: 18px;
+}
+
+/* Legacy 3-col grid (unused after removing "Another option", kept for safety) */
+.grid3 {
+  display: grid;
+  gap: 18px;
+}
+
+/* Step 3: two equal columns after removing "Another option" */
+.grid2Equal {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 840px) {
+  .grid2 {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+  .grid3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid2Equal {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Lists */
+.lossList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lossList li {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--muted);
+}
+
+.lossList li:last-child {
+  border-bottom: 0;
+}
+
+/* Icons */
+.lossList svg {
+  color: var(--danger);
+  flex: 0 0 22px;
+}
+
+.feature {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+/* Default feature icon color is success green */
+.feature svg {
+  color: var(--success);
+  flex: 0 0 18px;
+}
+
+/* In the "You will lose" column, X icons should be red */
+.lose .feature svg {
+  color: var(--danger);
+}
+
+/* Step 2: reasons */
+.reasonList {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+.reason {
+  border: 1px solid var(--muted);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: #fff;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.reason:hover {
+  background: #f9fbff;
+  border-color: #dbeafe;
+}
+
+.reason:has(input:checked) {
+  border-color: #bfdbfe;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.reason input {
+  accent-color: var(--brand);
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.btn {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 12px;
+  font-weight: 700;
+  padding: 12px 16px;
+  transition:
+    transform 0.06s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease,
+    background 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.primary:hover:not(:disabled) {
+  filter: brightness(0.98);
+}
+
+.subtle {
+  background: #eef2ff;
+  color: #1e3a8a;
+}
+
+.subtle:hover:not(:disabled) {
+  background: #e0e7ff;
+}
+
+.ghost {
+  background: transparent;
+  color: var(--ink-soft);
+}
+
+.ghost:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.danger {
+  background: var(--danger);
+  color: #fff;
+}
+
+.danger:hover:not(:disabled) {
+  filter: brightness(0.98);
+}
+
+.outline {
+  border: 2px solid var(--muted);
+  background: #fff;
+  color: var(--ink);
+}
+
+.outline:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+/* Asides, helpers */
+.aside {
+  background: #f8fafc;
+  border: 1px solid var(--muted);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.tip {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.footerNote {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* Focus visibility */
+.btn:focus-visible,
+.reason:focus-visible {
+  outline: 3px solid rgba(44, 107, 235, 0.35);
+  outline-offset: 2px;
+  border-radius: 12px;
+}

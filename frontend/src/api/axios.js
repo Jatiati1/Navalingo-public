@@ -1,9 +1,4 @@
 // src/api/axios.js
-// Axios instance with optional bearer mirror and CSRF handling.
-// - Base URL comes from VITE_API_URL or defaults to "/api".
-// - If VITE_USE_BEARER=true, a bearer token is stored and sent alongside cookies.
-// - On 403, a fresh CSRF token is fetched once and the request is retried.
-
 import axios from "axios";
 
 const USE_BEARER = (import.meta.env.VITE_USE_BEARER ?? "false") === "true";
@@ -47,7 +42,8 @@ const api = axios.create({
 let csrfToken = null;
 let csrfFetchPromise = null;
 
-export async function fetchCsrfToken() {
+export async function fetchCsrfToken(force = false) {
+  if (force) csrfToken = null;
   if (csrfToken) return csrfToken;
   if (csrfFetchPromise) return csrfFetchPromise;
 
@@ -66,15 +62,19 @@ export async function fetchCsrfToken() {
 
 // Attach bearer (optional) and CSRF header for mutating requests
 api.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const method = (config.method || "get").toLowerCase();
     const needsCsrf = ["post", "put", "patch", "delete"].includes(method);
 
     if (USE_BEARER && sessionToken) {
       config.headers.Authorization = `Bearer ${sessionToken}`;
     }
-    if (needsCsrf && csrfToken) {
-      config.headers["X-CSRF-Token"] = csrfToken;
+
+    if (needsCsrf) {
+      const token = await fetchCsrfToken(); // Always ensure we have a token
+      if (token) {
+        config.headers["X-CSRF-Token"] = token;
+      }
     }
     return config;
   },
@@ -90,9 +90,12 @@ api.interceptors.response.use(
     const cfg = error?.config;
     const status = error?.response?.status;
 
+    // This logic is kept as a fallback, but the request interceptor is now more robust.
     if (cfg && status === 403 && !csrfRetryInFlight) {
       csrfRetryInFlight = true;
       try {
+        // Clear the old token before fetching a new one
+        csrfToken = null;
         await fetchCsrfToken();
         cfg.headers = { ...(cfg.headers || {}), "X-CSRF-Token": csrfToken };
         return await api.request(cfg);

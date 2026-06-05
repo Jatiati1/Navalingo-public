@@ -73,7 +73,7 @@ export default function GlobalTrashComponent() {
   const hardDelete = async (id) => {
     log("DELETE FOREVER", id);
     const ok = window.confirm(
-      "This document will be permanently deleted. This action cannot be undone. Continue?"
+      "This document will be permanently deleted. This action cannot be undone. Continue?",
     );
     if (!ok) {
       showToast("Deletion cancelled.", {
@@ -112,7 +112,7 @@ export default function GlobalTrashComponent() {
       return;
     }
     const ok = window.confirm(
-      `Permanently delete all ${docs.length} items in your trash? This action cannot be undone.`
+      `Permanently delete all ${docs.length} items in your trash? This action cannot be undone.`,
     );
     if (!ok) {
       showToast("Empty trash cancelled.", {

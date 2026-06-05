@@ -66,7 +66,7 @@ export async function processTextForTranslation(
   editor,
   apiFn,
   targetLang,
-  maxWordsLimit = DEFAULT_MAX_WORDS
+  maxWordsLimit = DEFAULT_MAX_WORDS,
 ) {
   const html = await extractHtml(editor);
   if (!html || /^<p>(<br>)?<\/p>$/.test(html)) {
@@ -99,7 +99,7 @@ export async function processTextForCorrection(
   editor,
   apiFn,
   replaceFn,
-  maxWordsLimit = DEFAULT_MAX_WORDS
+  maxWordsLimit = DEFAULT_MAX_WORDS,
 ) {
   const html = await extractHtml(editor);
   if (!html || /^<p>(<br>)?<\/p>$/.test(html)) {

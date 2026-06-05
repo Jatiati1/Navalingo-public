@@ -26,7 +26,7 @@ export function useTranslation(editorRef, liveCap) {
       } = await axiosInstance.post(
         "/process-text",
         { text, action: "translate", targetLang, maxWords: liveCap },
-        { headers: { "X-CSRF-Token": csrfToken } }
+        { headers: { "X-CSRF-Token": csrfToken } },
       );
 
       const TAG = `translate-final-${Date.now()}`;
@@ -38,12 +38,12 @@ export function useTranslation(editorRef, liveCap) {
 
           const dom = new DOMParser().parseFromString(
             translatedHtml,
-            "text/html"
+            "text/html",
           );
           const nodes = $generateNodesFromDOM(editor, dom);
           rootNode.append(...nodes);
         },
-        { tag: TAG }
+        { tag: TAG },
       );
     } catch (error) {
       const { message, severity } = getEditorToastFromError(error, {

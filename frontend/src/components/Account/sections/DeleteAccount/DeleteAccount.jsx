@@ -26,7 +26,7 @@ export default function DeleteAccount() {
     } catch (err) {
       setError(
         err?.response?.data?.message ||
-          "Failed to delete account. Please try again later."
+        "Failed to delete account. Please try again later.",
       );
       setLoading(false);
     }

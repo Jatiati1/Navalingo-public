@@ -54,7 +54,7 @@ export default function SearchBar({
       setQuery(val);
       onQueryChange && onQueryChange(val);
     },
-    [setQuery, onQueryChange]
+    [setQuery, onQueryChange],
   );
 
   const handleClear = useCallback(() => {
@@ -76,7 +76,7 @@ export default function SearchBar({
   // Grouping if any result includes `section`
   const groupingEnabled = useMemo(
     () => displayResults.some((r) => r.section),
-    [displayResults]
+    [displayResults],
   );
 
   const grouped = useMemo(() => {
@@ -137,7 +137,7 @@ export default function SearchBar({
         handleClear();
       }
     },
-    [dropdownOpen, flatItems, selectedId, handleClear, query]
+    [dropdownOpen, flatItems, selectedId, handleClear, query],
   );
 
   const activeId = selectedId ? `sb-opt-${selectedId}` : undefined;

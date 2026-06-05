@@ -74,7 +74,7 @@ function DocumentControls({
     (e) => {
       onSearchChange(e.target.value);
     },
-    [onSearchChange]
+    [onSearchChange],
   );
 
   const handleClear = useCallback(() => {

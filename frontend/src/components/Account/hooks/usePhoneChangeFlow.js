@@ -48,13 +48,13 @@ export function usePhoneChangeFlow(sendOtpCallback, showToastCallback) {
         setStep("otp_new");
       } catch (err) {
         showToastCallback(
-          err?.message || "Failed to send OTP. Please try again."
+          err?.message || "Failed to send OTP. Please try again.",
         );
       } finally {
         setLoading(false);
       }
     },
-    [sendOtpCallback, showToastCallback]
+    [sendOtpCallback, showToastCallback],
   );
 
   const updatePhone = useCallback(async () => {

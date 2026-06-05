@@ -56,7 +56,7 @@ function Account() {
         duration: opts.duration,
         persist: opts.persist,
       }),
-    [showToast]
+    [showToast],
   );
 
   // Invisible reCAPTCHA shared by phone/email/password OTP flows
@@ -91,7 +91,7 @@ function Account() {
       const provider = new PhoneAuthProvider(auth);
       return provider.verifyPhoneNumber(phoneNumber, modalVerifier);
     },
-    [modalVerifier]
+    [modalVerifier],
   );
 
   // Security flows (toast + OTP passed into hooks)
@@ -129,7 +129,7 @@ function Account() {
         onClick: handleLogout,
       },
     ],
-    [currentUser?.username, handleLogout]
+    [currentUser?.username, handleLogout],
   );
 
   // Context for nested routes
@@ -151,13 +151,13 @@ function Account() {
       phoneFlow.step,
       passwordFlow.step,
       isAnyFlowLoading,
-    ]
+    ],
   );
 
   // Search adapter
   const accountSearchAdapter = useMemo(
     () => makeAccountAdapter(() => auth.currentUser || null),
-    []
+    [],
   );
 
   return (

@@ -1,4 +1,4 @@
-// frontend/src/components/Features/Security/ChangePasswordModal.jsx
+// frontend/src/components/features/security/ChangePasswordModal.jsx
 import React, { useState } from "react";
 import styles from "./ChangePasswordModal.module.css";
 import {
